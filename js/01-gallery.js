@@ -27,9 +27,7 @@ function onClick(evt) {
         return;
     }
   const imgId = target.dataset.imgId ?? target.closest('.gallery__item').dataset.imgId;
-console.log(imgId);
   const currentItem = galleryItems.find(({preview}) => preview === imgId);
-  console.log(currentItem);
     if (!currentItem) {
       const instance = basicLightbox.create(`
       <div class="modal">
@@ -44,6 +42,12 @@ console.log(imgId);
         <img width="1280" src="${currentItem.original}" alt ='${currentItem.description}'>
     </div>
 	`);
-        instance.show();
-    }
-}
+      instance.show();
+      container.addEventListener('keydown', onEscape);
+function onEscape(evt) {
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+  instance.close();
+}};
+  };
+};
