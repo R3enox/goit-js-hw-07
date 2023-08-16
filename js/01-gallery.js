@@ -43,7 +43,7 @@ function onClick(evt) {
     </div>
 	`);
       instance.show();
-      container.addEventListener('keydown', onEscape);
+      document.addEventListener('keydown', onEscape);
 function onEscape(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
