@@ -5,9 +5,9 @@ console.log(galleryItems);
 
 const container = document.querySelector('.gallery');
 
-const markup = galleryItems.map(({ preview, original, description}) =>
-    `<li data-img-id=${preview} class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+const markup = galleryItems.map(({preview, original, description}) =>
+    `<li class="gallery__item">
+  <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
       src="${preview}"
@@ -26,8 +26,8 @@ function onClick(evt) {
     if (!target.classList.contains('gallery__image')) {
         return;
     }
-  const imgId = target.dataset.imgId ?? target.closest('.gallery__item').dataset.imgId;
-  const currentItem = galleryItems.find(({preview}) => preview === imgId);
+  const imgId = target.dataset.source ?? target.closest('.gallery__image').dataset.imgId;
+  const currentItem = galleryItems.find(({original}) => original === imgId);
     if (!currentItem) {
       const instance = basicLightbox.create(`
       <div class="modal">
@@ -48,6 +48,12 @@ function onEscape(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
   instance.close();
-}};
-  };
+        }
+      };
+      const newContainer = document.querySelector(".basicLightbox");
+
+  newContainer.addEventListener("click", () => {
+    instance.close();
+  });
+  }
 };
