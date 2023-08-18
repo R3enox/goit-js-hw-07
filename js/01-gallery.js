@@ -23,37 +23,27 @@ container.addEventListener('click', onClick)
 function onClick(evt) {
   evt.preventDefault()
     const { target } = evt;
-    if (!target.classList.contains('gallery__image')) {
-        return;
-    }
+  if (!target.classList.contains('gallery__image')) {
+    return;
+  }
   const imgId = target.dataset.source ?? target.closest('.gallery__image').dataset.imgId;
   const currentItem = galleryItems.find(({original}) => original === imgId);
-    if (!currentItem) {
-      const instance = basicLightbox.create(`
-      <div class="modal">
-        <img width="1400" height="900" src="https://placehold.it/1400x900">
-    </div>
-	`);
-        instance.show();
-        return;
-    } else {
-      const instance = basicLightbox.create(`
+    const instance = basicLightbox.create(`
     <div class="modal">
         <img width="1280" src="${currentItem.original}" alt ='${currentItem.description}'>
     </div>
 	`);
-      instance.show();
+    instance.show(); 
       document.addEventListener('keydown', onEscape);
 function onEscape(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
-  instance.close();
+    instance.close();
+    document.removeEventListener('keydown', onEscape);
         }
-      };
-      const newContainer = document.querySelector(".basicLightbox");
-
+  };
+  const newContainer = document.querySelector(".basicLightbox");
   newContainer.addEventListener("click", () => {
     instance.close();
   });
-  }
 };
