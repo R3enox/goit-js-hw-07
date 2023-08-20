@@ -56,6 +56,6 @@ function onClick(evt) {
 function onEscape(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
-    instance.close();
+    this.close();
   }
   };
