@@ -28,22 +28,34 @@ function onClick(evt) {
   }
   const imgId = target.dataset.source ?? target.closest('.gallery__image').dataset.imgId;
   const currentItem = galleryItems.find(({original}) => original === imgId);
-    const instance = basicLightbox.create(`
+  const options = {
+    handler: null,
+    onShow(instance) {
+      this.handler = onEscape.bind(instance)
+      document.addEventListener('keydown', this.handler)
+  },
+
+    onClose() {
+    document.removeEventListener('keydown', this.handler)
+  }
+}
+  const instance = basicLightbox.create(`
     <div class="modal">
         <img width="1280" src="${currentItem.original}" alt ='${currentItem.description}'>
     </div>
-	`);
+	`,options);
     instance.show(); 
       document.addEventListener('keydown', onEscape);
-function onEscape(evt) {
-  evt.preventDefault();
-  if (evt.key === 'Escape') {
-    instance.close();
-    document.removeEventListener('keydown', onEscape);
-        }
-  };
   const newContainer = document.querySelector(".basicLightbox");
   newContainer.addEventListener("click", () => {
     instance.close();
   });
 };
+
+
+function onEscape(evt) {
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+    instance.close();
+  }
+  };
